@@ -69,6 +69,7 @@ $.ajax({
     url: JSONUrl,
     dataType: "JSON",
     success: function (data) {
+        sortedbyprice = _.sortBy(data, "signPrice");
     },
     error: function () {
         alert("ERROR! Could not connect to the shop data!");
@@ -90,6 +91,7 @@ function findshops() {
             if (type == itemid && durability == itemid2 && (val.signType == "buy" || val.signType == "sell" || val.signType == "ibuy" || val.signType == "isell")) {
 
                 $("#2").text(val.amount);
+               
                 matches.push(val);
 
             }
@@ -148,6 +150,7 @@ function findshops() {
 
         $.each(displayedmatches, function (key5, val5) {
             $.each(val5.invItems, function (key6, val6) {
+                
 
                 var enchants = val6.meta.enchantments,
                     enchantLabels = [],
