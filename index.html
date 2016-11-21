@@ -1,0 +1,260 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <title>MCShop</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script>
+
+
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="red">
+            <div class="nav-wrapper white-text container">
+                <a href="index.html" class="brand-logo"><img src="logo.png" alt="MCShop Logo" height="60px" width="auto"></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+
+
+
+        <div class="container">
+            <div class="input-field">
+                <p>Please Choose an Item:</p>
+                <select name="itemselect" id="itemselect" class="form-control" onchange="findshops()">
+                    <option></option>
+                </select>
+                <script></script>
+            </div>
+        </div>
+        <div class="container">
+            <br/>
+            <div id="responsecontainer" class="row">
+
+
+            </div>
+            <p class="red-text" id="1"></p>
+            <p id="2"></p>
+        </div>
+        
+    </main>
+    <footer>
+        <div class="container">
+
+            <p class="center">Current Version: 2.2.1</p>
+            <p class="center">&copy; 2016 MCShop</p>
+        </div>
+
+    </footer>
+</body>
+<script>
+    /*========================
+    EDIT BELOW
+    ========================*/
+    var JSONUrl = "https://survival.gamealition.com/data/signshop.json";
+    var dynmapURL = "http://survival.gamealition.com:8123";
+    /*========================
+    EDIT ABOVE
+    ========================*/
+    
+    var ENCHANTS = {
+        "ARROW_DAMAGE": "Power",
+        "ARROW_FIRE": "Flame",
+        "ARROW_INFINITE": "Infinity",
+        "ARROW_KNOCKBACK": "Punch",
+        "DAMAGE_ALL": "Sharpness",
+        "DAMAGE_ARTHROPODS": "Bane of Arthropods",
+        "DAMAGE_UNDEAD": "Smite",
+        "DEPTH_STRIDER": "Depth Strider",
+        "DIG_SPEED": "Efficiency",
+        "DURABILITY": "Unbreaking",
+        "FIRE_ASPECT": "Fire Aspect",
+        "FROST_WALKER": "Frost Walker",
+        "KNOCKBACK": "Knockback",
+        "LOOT_BONUS_BLOCKS": "Fortune",
+        "LOOT_BONUS_MOBS": "Looting",
+        "LUCK": "Luck of the Sea",
+        "LURE": "Lure",
+        "MENDING": "Mending",
+        "OXYGEN": "Respiration",
+        "PROTECTION_ENVIRONMENTAL": "Protection",
+        "PROTECTION_EXPLOSIONS": "Blast Protection",
+        "PROTECTION_FALL": "Feather Falling",
+        "PROTECTION_FIRE": "Fire Protection",
+        "PROTECTION_PROJECTILE": "Projectile Protection",
+        "SILK_TOUCH": "Silk Touch",
+        "THORNS": "Thorns",
+        "WATER_WORKER": "Aqua Affinity",
+    }
+    var NUMERALS = {
+        "1": "I",
+        "2": "II",
+        "3": "III",
+        "4": "IV",
+        "5": "V",
+    }
+    var sorted;
+    var signShopData;
+    var result;
+    var $select = $("#itemselect");
+    $.ajax({
+        url: "items.json",
+        dataType: "JSON",
+        success: function(data) {
+            sorted = _.sortBy(data, "name")
+            $.each(sorted, function(key, val) {
+                $select.append("<option value='" + val.type + ":" + val.meta + "'>" + val.name + "</option>");
+            })
+        },
+        error: function() {
+            $select.html("<option value=''>ERROR! Could not load items!</option>");
+        }
+    });
+    $("#itemselect").select2({
+        placeholder: "Choose an item",
+        allowClear: true
+    });
+
+    $.ajax({
+        url: JSONUrl,
+        dataType: "JSON",
+        success: function(data) {
+            sortedbyprice = _.sortBy(data, "signPrice");
+        },
+        error: function() {
+            alert("ERROR! Could not connect to the shop data!");
+        }
+    });
+
+    function findshops() {
+        var selecteditem = $('#itemselect option:selected').val();
+        var itemname = $('#itemselect option:selected').text();
+        var fields = selecteditem.split(/:/);
+        var itemid = fields[0];
+        var itemid2 = fields[1];
+        var matches = [];
+        var displayedmatches = [];
+        $.each(sortedbyprice, function(key, val) {
+            $.each(val.invItems, function(key2, val2) {
+                var type = val2.type;
+                var durability = val2.durability;
+                if (type == itemid && durability == itemid2 && (val.signType == "buy" || val.signType == "sell" || val.signType == "ibuy" || val.signType == "isell")) {
+
+                    $("#2").text(val.amount);
+                    //console.log(val);
+                    matches.push(val);
+
+                }
+            });
+
+        });
+        if (matches.length == 0) {
+            $("#responsecontainer").addClass("hide");
+            $("#1").text("Error! No shops found with that item!");
+            $("#2").text("");
+        } else {
+            $("#responsecontainer").empty();
+            $("#responsecontainer").removeClass("hide");
+            $("#1").text("");
+            $("#2").text("Fetched " + matches.length + " results. Displaying sorted by price.")
+            $.each(matches, function(key3, val3) {
+
+                $.each(val3.invItems, function(key4, val4) {
+                    if (val4.type != itemid || val4.durability != itemid2) {
+                        return;
+                    }
+                    var $signtype = val3.signType;
+                    var $amount = val4.amount;
+                    var $signprice = val3.signPrice;
+                    var $ownername = val3.ownerName;
+                    var $locworld = val3.locWorld;
+                    var $x = val3.locX;
+                    var $y = val3.locY;
+                    var $z = val3.locZ;
+                    if ($signtype == "ibuy" || $signtype == "isell") {
+                        var $invinstock = "infinite";
+                    } else {
+                        var $invinstock = val3.invInStock;
+                    }
+                    var currentmatch = {
+                        signType: $signtype,
+                        amount: $amount,
+                        signPrice: $signprice,
+                        ownerName: $ownername,
+                        locWorld: $locworld,
+                        locX: $x,
+                        locY: $y,
+                        locZ: $z,
+                        invInStock: $invinstock
+                    };
+
+                    displayedmatches.push(val3);
+                   
+                });
+
+            
+            });
+
+            matches.length = 0;
+
+
+            $.each(displayedmatches, function(key5, val5) {
+                $.each(val5.invItems, function(key6, val6) {
+                    console.log(val6);
+
+                    var enchants = val6.meta.enchantments,
+                        enchantLabels = [],
+                        enchant = null,
+                        level = null;
+                    for (enchant in enchants) {
+                        level = enchants[enchant];
+                        enchantLabels.push(ENCHANTS[enchant] + " " + NUMERALS[level]);
+
+                    }
+                    
+                    if (enchants == null) {
+                        var displayedenchant = "none";
+                    } else {
+                        var displayedenchant = enchantLabels.join(", ");
+                    }
+                    if (val5.signType == "ibuy" || val5.signType == "isell") {
+                        var $invinstock = "infinite";
+                    } else {
+                        var $invinstock = val5.invInStock;
+                    }
+                    if ($invinstock == false) {
+                        var textColor = "red-text";
+                    } else {
+                        var textColor = "green-text";
+                    }
+
+                    var $appendrow = $("<div class='col l3 m3 s6'><div class='card'><div class='card-image'><img src='img/" + itemid + "-" + itemid2 + ".png' class='card-image-size'><span class='card-title black-text right-align'>" + itemname + "</span></div><div class='card-content'><p><strong>Owner:</strong></p><img src='https://minotar.net/avatar/" + val5.ownerName + "/20' class='left'><p>" + val5.ownerName + "</p><p><strong>Enchantments:</strong></p><p>" + displayedenchant + "</p><p><strong>Location:</strong></p><p><i>" + val5.locWorld + "</i> @ <a href='" + dynmapURL + "/?worldname=" + val5.locWorld + "&mapname=surface&zoom=6&x=" + val5.locX + "&y=" + val5.locY + "&z=" + val5.locZ + "' target='_blank'>" + val5.locX + ", " + val5.locY + ", " + val5.locZ + "</a></p><p><strong>In Stock?: </strong><span class='" + textColor + "'>" + $invinstock + "</span></p></div><div class='card-action'><strong>" + val5.signType + "</strong> " + val6.amount + " for <strong>G" + val5.signPrice + "</strong></div></div></div>");
+                    $appendrow.appendTo("#responsecontainer");
+                });
+
+
+
+            });
+
+        }
+    }
+
+</script>
+
+</html>
