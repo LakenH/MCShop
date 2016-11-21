@@ -1,6 +1,6 @@
-![MCShop](https://raw.githubusercontent.com/LakenH/MCShop/master/logo.png)
+![MCShop Gamealition](https://raw.githubusercontent.com/LakenH/MCShop/gamealition/logo.png)
   
-Web site for viewing items for sale on a Minecraft server, automatically updates using the plugin SignShopExport
+Web site for viewing items for sale on the Gamealition Minecraft server, automatically updates using the plugin SignShopExport
 
 ## Live Demo
 [MCShop for the Gamealition Minecraft Server](http://laken.pw/mcshop)
