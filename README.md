@@ -2,7 +2,7 @@
   
 Web site for viewing items for sale on a Minecraft server, automatically updates using the plugin SignShopExport
 
-## Live Demo
+## Example(s)
 [MCShop for the Gamealition Minecraft Server](http://laken.pw/mcshop)
 
 ## Features
@@ -17,7 +17,7 @@ Web site for viewing items for sale on a Minecraft server, automatically updates
 
 ## How to set up
 1. Install the server plugin [SignShopExport](https://github.com/Gamealition/SignShopExport) by RoyCurtis. This plugin is compatable with SignShop and Quickshop.
-2. At the top of `mcshop.js`, edit the values of the two variables, `JSONUrl` and `dynmapURL` with your URLs
+2. At the top of `mcshop.js`, edit the values of three variables, `JSONUrl` and `dynmapURL` with your URLs, and then `currencySymbol` with your desired symbol (default is `$`)
 3. Upload all files to a web server. (NOTE: If MCShop is located on a different server than the JSON, you may run into some trouble, to fix this, add `Header set Access-Control-Allow-Origin "*"` to the .htaccess file in the directory that the JSON is located)
 4. If you run into any issues setting up, feel free to open an issue
 
