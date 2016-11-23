@@ -2,8 +2,13 @@
   
 Web site for viewing items for sale on a Minecraft server, automatically updates using the plugin SignShopExport
 
+## Live Demo
+[MCShop Live Demo](https://lakenh.github.io/MCShop/) (using data from the Gamealition Minecraft Server)
+
 ## Example(s)
 [MCShop for the Gamealition Minecraft Server](http://laken.pw/mcshop)
+
+I want to see your version of MCShop! Share it with me for it to be added to the list!
 
 ## Features
 - Automatically updates all shops located on the server every 30 minutes (Thanks to SignShopExport)
