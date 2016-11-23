@@ -71,6 +71,10 @@ $.ajax({
     dataType: "JSON",
     success: function (data) {
         sortedbyprice = _.sortBy(data, "signPrice");
+        //findLength = JSON.parse(data);
+        JSONLength = data.length;
+        $("#shop-number").text(JSONLength);
+        
     },
     error: function () {
         alert("ERROR! Could not connect to the shop data!");
