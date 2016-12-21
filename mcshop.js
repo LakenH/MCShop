@@ -88,6 +88,7 @@ function findshops() {
     var displayedmatches = [];
     $.each(sortedbyprice, function (key, val) {
         $.each(val.invItems, function (key2, val2) {
+						if (val.invItems == null) return;
             var type = val2.type;
             var durability = val2.durability;
             if (type == itemid && durability == itemid2 && (val.signType == "buy" || val.signType == "sell" || val.signType == "ibuy" || val.signType == "isell")) {
