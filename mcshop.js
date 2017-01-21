@@ -33,6 +33,7 @@ var ENCHANTS = {
     "PROTECTION_FIRE": "Fire Protection",
     "PROTECTION_PROJECTILE": "Projectile Protection",
     "SILK_TOUCH": "Silk Touch",
+	"SWEEPING_EDGE": "Sweeping Edge",
     "THORNS": "Thorns",
     "WATER_WORKER": "Aqua Affinity"
 }
