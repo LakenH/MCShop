@@ -70,7 +70,15 @@ $.ajax({
     url: JSONUrl,
     dataType: "JSON",
     success: function (data) {
-        sortedbyprice = _.sortBy(data, "signPrice");
+        sortedbyprice = data.sort(function(a, b) {
+            if (a.invItems == null || a.invItems.length == 0) return 1;
+            if (b.invItems == null || b.invItems.length == 0) return -1;
+            
+            var priceRatioA = (a.signPrice / a.invItems[0].amount);
+            var priceRatioB = (b.signPrice / b.invItems[0].amount);
+            
+            return priceRatioA - priceRatioB;
+        });
         //findLength = JSON.parse(data);
         JSONLength = data.length;
         $("#shop-number").text(JSONLength);
