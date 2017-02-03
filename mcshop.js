@@ -34,6 +34,8 @@ var ENCHANTS = {
     "PROTECTION_PROJECTILE": "Projectile Protection",
     "SILK_TOUCH": "Silk Touch",
 	"SWEEPING_EDGE": "Sweeping Edge",
+	//The JSON has sweeping edge as "SWEEPING" instead of "SWEEPING_EDGE"
+	"SWEEPING": "Sweeping Edge",
     "THORNS": "Thorns",
     "WATER_WORKER": "Aqua Affinity"
 }
