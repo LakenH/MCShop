@@ -12,6 +12,7 @@ var ENCHANTS = {
     "ARROW_FIRE": "Flame",
     "ARROW_INFINITE": "Infinity",
     "ARROW_KNOCKBACK": "Punch",
+	"BINDING_CURSE": "Curse of Binding",
     "DAMAGE_ALL": "Sharpness",
     "DAMAGE_ARTHROPODS": "Bane of Arthropods",
     "DAMAGE_UNDEAD": "Smite",
@@ -37,6 +38,7 @@ var ENCHANTS = {
 	//The JSON has sweeping edge as "SWEEPING" instead of "SWEEPING_EDGE"
 	"SWEEPING": "Sweeping Edge",
     "THORNS": "Thorns",
+	"VANISHING_CURSE": "Curse of Vanishing",
     "WATER_WORKER": "Aqua Affinity"
 }
 var NUMERALS = {
